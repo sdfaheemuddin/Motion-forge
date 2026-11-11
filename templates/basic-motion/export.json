@@ -1,0 +1,16 @@
+{
+  "filename": "quick-start.mp4",
+  "directory": "../../output/quick-start",
+  "video": {
+    "codec": "h264",
+    "quality": 18,
+    "pixelFormat": "yuv420p",
+    "preset": "fast"
+  },
+  "audio": {
+    "enabled": false
+  },
+  "loop": {
+    "validateSeam": false
+  }
+}

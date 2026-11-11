@@ -1,0 +1,9 @@
+{
+  "assets": [
+    {
+      "id": "heading-font",
+      "type": "font",
+      "source": "system:sans-bold"
+    }
+  ]
+}

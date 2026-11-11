@@ -1,0 +1,65 @@
+{
+  "clips": [
+    {
+      "id": "demo",
+      "scene": "main",
+      "start": 0,
+      "duration": 4
+    }
+  ],
+  "paths": [
+    {
+      "id": "route",
+      "type": "polyline",
+      "points": [
+        [
+          60,
+          230
+        ],
+        [
+          260,
+          230
+        ],
+        [
+          380,
+          170
+        ],
+        [
+          580,
+          170
+        ]
+      ]
+    }
+  ],
+  "tracks": [
+    {
+      "id": "point-travel",
+      "target": "demo/point",
+      "animation": "followPath",
+      "start": 0,
+      "duration": 4,
+      "parameters": {
+        "path": "route",
+        "speedMode": "constant"
+      },
+      "easing": "linear",
+      "repeat": 0
+    },
+    {
+      "id": "title-fade",
+      "target": "demo/title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 0.6,
+          "value": 1,
+          "easing": "easeInOut"
+        }
+      ]
+    }
+  ]
+}

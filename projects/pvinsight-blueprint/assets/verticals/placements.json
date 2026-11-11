@@ -1,0 +1,80 @@
+{
+  "canvas_size": [
+    1600,
+    900
+  ],
+  "assets": {
+    "site": {
+      "file": "Site.png",
+      "position": [
+        95,
+        184
+      ],
+      "size": [
+        1365,
+        697
+      ],
+      "transparent": true
+    },
+    "solar": {
+      "file": "PV.png",
+      "position": [
+        195,
+        197
+      ],
+      "size": [
+        688,
+        428
+      ],
+      "transparent": true
+    },
+    "bess": {
+      "file": "BESS.png",
+      "position": [
+        670,
+        509
+      ],
+      "size": [
+        427,
+        280
+      ],
+      "transparent": true
+    },
+    "substation": {
+      "file": "Substation.png",
+      "position": [
+        845,
+        298
+      ],
+      "size": [
+        342,
+        315
+      ],
+      "transparent": true
+    },
+    "transmission": {
+      "file": "TLine.png",
+      "position": [
+        518,
+        51
+      ],
+      "size": [
+        386,
+        374
+      ],
+      "transparent": true
+    },
+    "datacenter": {
+      "file": "DataCenter.png",
+      "position": [
+        1038,
+        362
+      ],
+      "size": [
+        350,
+        313
+      ],
+      "transparent": true
+    }
+  }
+}

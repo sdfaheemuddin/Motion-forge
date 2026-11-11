@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "filename": {
+      "type": "string",
+      "pattern": "^[^/\\\\]+\\.mp4$"
+    },
+    "directory": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolution": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 2
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "video": {
+      "type": "object",
+      "properties": {
+        "codec": {
+          "const": "h264"
+        },
+        "quality": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 51
+        },
+        "pixelFormat": {
+          "const": "yuv420p"
+        },
+        "preset": {
+          "enum": [
+            "ultrafast",
+            "veryfast",
+            "fast",
+            "medium",
+            "slow"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "audio": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "bitrate": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "loop": {
+      "type": "object",
+      "properties": {
+        "validateSeam": {
+          "type": "boolean"
+        },
+        "tolerance": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "filename"
+  ],
+  "additionalProperties": false
+}

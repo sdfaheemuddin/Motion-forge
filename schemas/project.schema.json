@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canvas": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "background": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "timeline": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "duration",
+        "fps",
+        "file"
+      ],
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "string",
+      "minLength": 1
+    },
+    "branding": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "export": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "name",
+    "canvas",
+    "timeline",
+    "assets",
+    "scenes",
+    "export"
+  ],
+  "additionalProperties": false
+}

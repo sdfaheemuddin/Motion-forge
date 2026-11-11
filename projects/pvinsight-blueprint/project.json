@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "id": "pvinsight-blueprint",
+  "name": "PVInsight \u2014 Blueprint to Reality",
+  "canvas": {
+    "width": 1920,
+    "height": 1080,
+    "background": "#071421"
+  },
+  "timeline": {
+    "duration": 40,
+    "fps": 24,
+    "file": "timeline.json"
+  },
+  "assets": "assets.json",
+  "branding": "branding.json",
+  "scenes": [
+    "scenes/main.json"
+  ],
+  "export": "export.json"
+}

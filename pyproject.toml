@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "motion-forge"
+version = "0.1.0"
+description = "A modular JSON-driven video composition and animation engine"
+requires-python = ">=3.11"
+dependencies = ["Pillow>=10", "numpy>=1.24", "jsonschema>=4.18", "imageio-ffmpeg>=0.5"]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.27"]
+dev = ["httpx>=0.27"]
+
+[project.scripts]
+motion-forge = "motion_forge.controllers.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["app"]
+
+[tool.setuptools.data-files]
+"share/motion-forge/schemas" = ["schemas/*.json"]
+"share/motion-forge/config" = ["config/*.json"]

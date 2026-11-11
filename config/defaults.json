@@ -1,0 +1,29 @@
+{
+  "transform": {
+    "position": [
+      0,
+      0
+    ],
+    "anchor": [
+      0,
+      0
+    ],
+    "scale": [
+      1,
+      1
+    ],
+    "rotation": 0,
+    "opacity": 1
+  },
+  "text": {
+    "size": 48,
+    "color": "#FFFFFF",
+    "align": "left",
+    "lineSpacing": 1.2
+  },
+  "export": {
+    "quality": 18,
+    "preset": "fast",
+    "pixelFormat": "yuv420p"
+  }
+}

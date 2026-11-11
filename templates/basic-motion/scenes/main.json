@@ -1,0 +1,77 @@
+{
+  "id": "main",
+  "elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "text": "MOTION FORGE",
+      "style": "heading",
+      "transform": {
+        "position": [
+          40,
+          35
+        ]
+      }
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "text": "JSON in. Video out.",
+      "size": 22,
+      "color": "#91A8BB",
+      "transform": {
+        "position": [
+          40,
+          85
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "type": "path",
+      "path": "route",
+      "stroke": "#285F70",
+      "strokeWidth": 3
+    },
+    {
+      "id": "point",
+      "type": "shape",
+      "shape": "circle",
+      "radius": 7,
+      "fill": "#FFFFFF",
+      "transform": {
+        "anchor": [
+          0.5,
+          0.5
+        ]
+      },
+      "effects": [
+        {
+          "type": "glow",
+          "color": "#42E1E6",
+          "radius": 10,
+          "intensity": 1
+        },
+        {
+          "type": "trail",
+          "duration": 0.35,
+          "samples": 5,
+          "intensity": 0.5
+        }
+      ]
+    },
+    {
+      "id": "footer",
+      "type": "text",
+      "text": "One clock. Continuous motion.",
+      "size": 18,
+      "color": "#91A8BB",
+      "transform": {
+        "position": [
+          40,
+          310
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "assets": [
+    {
+      "id": "heading-font",
+      "type": "font",
+      "source": "system:sans-bold"
+    },
+    {
+      "id": "body-font",
+      "type": "font",
+      "source": "system:sans"
+    },
+    {
+      "id": "logo",
+      "type": "image",
+      "source": "assets/branding/logo-white.png"
+    },
+    {
+      "id": "site",
+      "type": "image",
+      "source": "assets/verticals/Site.png"
+    },
+    {
+      "id": "solar",
+      "type": "image",
+      "source": "assets/verticals/PV.png"
+    },
+    {
+      "id": "bess",
+      "type": "image",
+      "source": "assets/verticals/BESS.png"
+    },
+    {
+      "id": "substation",
+      "type": "image",
+      "source": "assets/verticals/Substation.png"
+    },
+    {
+      "id": "transmission",
+      "type": "image",
+      "source": "assets/verticals/TLine.png"
+    },
+    {
+      "id": "datacenter",
+      "type": "image",
+      "source": "assets/verticals/DataCenter.png"
+    },
+    {
+      "id": "site-wire",
+      "type": "path",
+      "source": "assets/wireframes/site-wire.json"
+    },
+    {
+      "id": "solar-wire",
+      "type": "path",
+      "source": "assets/wireframes/solar-wire.json"
+    },
+    {
+      "id": "bess-wire",
+      "type": "path",
+      "source": "assets/wireframes/bess-wire.json"
+    },
+    {
+      "id": "substation-wire",
+      "type": "path",
+      "source": "assets/wireframes/substation-wire.json"
+    },
+    {
+      "id": "transmission-wire",
+      "type": "path",
+      "source": "assets/wireframes/transmission-wire.json"
+    },
+    {
+      "id": "datacenter-wire",
+      "type": "path",
+      "source": "assets/wireframes/datacenter-wire.json"
+    }
+  ]
+}

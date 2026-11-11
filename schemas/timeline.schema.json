@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "clips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+          },
+          "scene": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "duration": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "layer": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "scene",
+          "start",
+          "duration"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+          },
+          "type": {
+            "enum": [
+              "polyline",
+              "bezier"
+            ]
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "minItems": 2
+          }
+        },
+        "required": [
+          "id",
+          "points"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "property": {
+            "type": "string",
+            "pattern": "^(position|scale|rotation|opacity|fill|stroke|strokeWidth|reveal|textReveal|effects\\.[0-9]+\\.(radius|intensity|color))$"
+          },
+          "keyframes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "value": {
+                  "type": [
+                    "number",
+                    "array",
+                    "string"
+                  ]
+                },
+                "easing": {
+                  "enum": [
+                    "linear",
+                    "easeIn",
+                    "easeOut",
+                    "easeInOut"
+                  ]
+                }
+              },
+              "required": [
+                "time",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "animation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "duration": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "easing": {
+            "enum": [
+              "linear",
+              "easeIn",
+              "easeOut",
+              "easeInOut"
+            ]
+          },
+          "repeat": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "before": {
+            "enum": [
+              "holdFirst",
+              "base"
+            ]
+          },
+          "after": {
+            "enum": [
+              "holdLast",
+              "base"
+            ]
+          },
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "from": {},
+              "to": {},
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "speedMode": {
+                "const": "constant"
+              },
+              "orientToPath": {
+                "type": "boolean"
+              },
+              "property": {
+                "type": "string",
+                "pattern": "^(position|scale|rotation|opacity|fill|stroke|strokeWidth|reveal|textReveal|effects\\.[0-9]+\\.(radius|intensity|color))$"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "target"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "required": [
+              "property",
+              "keyframes"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "animation"
+                  ]
+                },
+                {
+                  "required": [
+                    "start"
+                  ]
+                },
+                {
+                  "required": [
+                    "duration"
+                  ]
+                },
+                {
+                  "required": [
+                    "repeat"
+                  ]
+                },
+                {
+                  "required": [
+                    "parameters"
+                  ]
+                },
+                {
+                  "required": [
+                    "path"
+                  ]
+                },
+                {
+                  "required": [
+                    "easing"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "required": [
+              "animation",
+              "start",
+              "duration"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "keyframes"
+                  ]
+                },
+                {
+                  "required": [
+                    "property"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "minItems": 0
+    },
+    "audio": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+          },
+          "asset": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "duration": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "trimStart": {
+            "type": "number",
+            "minimum": 0
+          },
+          "volume": {
+            "type": "number",
+            "minimum": 0
+          },
+          "fadeIn": {
+            "type": "number",
+            "minimum": 0
+          },
+          "fadeOut": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "asset",
+          "start",
+          "duration"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "clips"
+  ],
+  "additionalProperties": false
+}
