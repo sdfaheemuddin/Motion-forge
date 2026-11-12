@@ -16,3 +16,19 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: motion-forge doctor
       - run: motion-forge validate projects/pvinsight-blueprint/project.json
+  builder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+        working-directory: ui
+      - run: npm test
+        working-directory: ui
+      - run: npm run build
+        working-directory: ui
+      - run: git diff --exit-code -- app/motion_forge/web/dist

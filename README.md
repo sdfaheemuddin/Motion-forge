@@ -6,7 +6,10 @@ A modular, JSON-driven video maker. Define assets, scenes, branding and animatio
 
 1. Install Python 3.11 or newer and extract/clone this repository.
 2. Double-click `setup.bat`. It creates `.venv`, installs the package and API dependencies, and checks fonts and FFmpeg.
-3. Double-click `render.bat` for the four-second generic example.
+3. Double-click `start.bat` to open the video builder at `http://127.0.0.1:8765`.
+4. Open a project or create one from a template. Edit, save, and export from the tabs.
+
+Node.js is **not required to run the application**. The compiled UI is included. `render.bat` still renders the four-second generic example without opening the UI.
 
 For the PVInsight example, open Terminal in the repository directory:
 
@@ -26,6 +29,7 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 python -m pip install -e ".[api,dev]"
 motion-forge doctor
+motion-forge ui --root .
 motion-forge validate projects/quick-start/project.json
 motion-forge preview projects/quick-start/project.json --time 2
 motion-forge render projects/quick-start/project.json
@@ -33,6 +37,26 @@ motion-forge render projects/pvinsight-blueprint/project.json
 ```
 
 Every CLI command also works as `python -m motion_forge ...`. Failed validation exits with status 1 and identifies the offending file/field. An unsuccessful export preserves an existing completed video.
+
+## Video builder
+
+![Motion Forge scene builder](docs/images/builder.jpg)
+
+| Tab | What you can do |
+| --- | --- |
+| Projects | Create blank projects, copy templates, and set canvas, FPS, and duration |
+| Assets | Import transparent PNGs, fonts, path JSON, audio, and video; inspect usage |
+| Branding | Set a logo, palette, and reusable text styles |
+| Scene builder | Add elements, drag/resize, arrange layers, edit properties and effects |
+| Timeline | Schedule animations, edit keyframes, drag track timing, edit routes and audio |
+| Preview | Play a fast visual preview or render an exact engine PNG |
+| Export | Set resolution/quality/audio, render MP4, monitor progress, watch and download |
+
+Undo/redo and Ctrl+S are available. Advanced JSON changes are validated before applying. Save validates the whole project, backs up previous JSON in `cache/builder/backups/`, and rejects changes if the project was edited externally. Templates are copied into `projects/` before editing. Assets import immediately to the project folder; Save persists their registration. Removing an asset from the UI leaves its file intact.
+
+Rendering runs one job at a time, stores results in `output/jobs/<job-id>/`, and continues while you change tabs. Keep the local server running until exports complete. The interactive canvas approximates text/effects for responsiveness; Engine frame and MP4 export use the original renderer. Fast playback is visual only; audio is included in exported videos when enabled.
+
+See [builder architecture and API](docs/builder.md) for development details.
 
 ## JSON files
 
@@ -60,7 +84,7 @@ Copy an entire template into `projects/<your-project>` to customize it, or run t
 
 The PVI template exports to `output/pvinsight-blueprint-template/`, separately from the original example. See the [template guide](templates/README.md).
 
-## Supported in 0.1
+## Supported in 0.2
 
 - Image, text, shape, path, group and video elements.
 - Position, scale, clockwise rotation, opacity, fill/stroke, stroke width, reveal, text reveal and effect-property tracks.
@@ -72,7 +96,7 @@ The PVI template exports to `output/pvinsight-blueprint-template/`, separately f
 - A local API with one render worker, persisted job status and progress.
 - Installed Python plugin registries for animations, effects and element renderers.
 
-This version is a JSON authoring tool. It has no visual timeline editor. Built-in easing is linear/ease-in/ease-out/ease-in-out; video playback speed must be positive. Keyframe timing is project-global. Bezier length is approximated by sampled segments. The Blender helper remains a project-specific optional generator, separate from the core.
+The single-user builder edits the same JSON files used by the CLI and API. Built-in easing is linear/ease-in/ease-out/ease-in-out; video playback speed must be positive. Keyframe timing is project-global. Bezier length is approximated by sampled segments. The Blender helper remains a project-specific optional generator, separate from the core.
 
 ## Python API
 
@@ -96,6 +120,12 @@ Open `http://127.0.0.1:8765/docs` for the interactive API. Submit `{"project":"p
 
 ```bash
 python -m unittest discover -s tests -v
+cd ui
+npm ci
+npm test
+npm run build
 ```
+
+Node.js 22+ is needed only when developing the UI. After building, restart the Python server to serve the latest compiled files. Commit `app/motion_forge/web/dist/` with UI changes so normal users can run with Python alone. For live UI development, run the Python API on port 8765 and `npm run dev` in `ui/` on port 5173.
 
 CI runs the suite on Windows and Linux with Python 3.11 and 3.12. See [architecture](docs/architecture.md), [JSON reference](docs/json-reference.md), [animations and effects](docs/animations-and-effects.md), [plugins](docs/creating-plugins.md), and [API reference](docs/api-reference.md).

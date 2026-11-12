@@ -1,5 +1,5 @@
 """Public Python API for Motion Forge."""
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 def load_project(path):
     from .repositories.project_repository import ProjectRepository

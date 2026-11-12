@@ -41,6 +41,7 @@ class APITests(unittest.TestCase):
             response=client.get(f'/jobs/{job_id}/video')
             self.assertEqual(response.status_code,200)
             self.assertIn(b'ftyp',response.content[:64])
+            self.assertIn('quick-start.mp4',response.headers['content-disposition'])
 
 if __name__=='__main__':
     unittest.main()

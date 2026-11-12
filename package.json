@@ -1,0 +1,1 @@
+{"name":"motion-forge-workspace","private":true,"scripts":{"dev":"python scripts/serve_builder.py","build":"npm --prefix ui run build","test":"npm --prefix ui test"}}

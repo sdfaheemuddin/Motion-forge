@@ -13,7 +13,7 @@ if errorlevel 1 goto failed
 if errorlevel 1 goto failed
 .venv\Scripts\python.exe -m motion_forge doctor
 if errorlevel 1 goto failed
-echo Setup complete. Run render.bat to generate the quick-start video.
+echo Setup complete. Run start.bat to open the video builder, or render.bat for command-line export.
 pause
 exit /b 0
 :failed

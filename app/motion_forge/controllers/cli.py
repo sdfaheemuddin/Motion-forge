@@ -25,17 +25,27 @@ def main(argv=None):
     serve.add_argument('--host',default='127.0.0.1')
     serve.add_argument('--port',type=int,default=8765)
     serve.add_argument('--root',default='.')
+    ui=commands.add_parser('ui',help='Open the single-user video builder')
+    ui.add_argument('--host',default='127.0.0.1')
+    ui.add_argument('--port',type=int,default=8765)
+    ui.add_argument('--root',default='.')
+    ui.add_argument('--no-browser',action='store_true')
     args=parser.parse_args(argv)
     configure_logging(args.verbose)
     try:
         if args.command=='doctor':
             print(json.dumps({'ffmpeg':find_ffmpeg(),'font':resolve_system_font()},indent=2))
-        elif args.command=='serve':
+        elif args.command in ('serve','ui'):
             try:
                 import uvicorn
                 from .api import create_app
             except ImportError as error:
                 raise MotionForgeError('HTTP API dependencies are missing. Run: python -m pip install ".[api]"') from error
+            if args.command=='ui' and not args.no_browser:
+                import threading
+                import webbrowser
+                timer=threading.Timer(1.2,lambda:webbrowser.open(f'http://{args.host}:{args.port}/'))
+                timer.daemon=True;timer.start()
             uvicorn.run(create_app(args.root),host=args.host,port=args.port)
         else:
             project=load_project(args.project)

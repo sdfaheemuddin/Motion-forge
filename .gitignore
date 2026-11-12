@@ -9,3 +9,6 @@ output/
 cache/
 *.blend1
 *.log
+node_modules/
+!app/motion_forge/web/dist/
+!app/motion_forge/web/dist/**

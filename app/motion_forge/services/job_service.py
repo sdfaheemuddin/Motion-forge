@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
 from uuid import uuid4
+from datetime import datetime, timezone
 from .render_service import RenderService
 
 class JobService:
@@ -14,16 +15,16 @@ class JobService:
 
     def submit(self,project):
         job_id=str(uuid4())
-        job=self.repository.update(job_id,status='queued',progress=0,project=project.document['id'])
+        job=self.repository.update(job_id,status='queued',progress=0,project=project.document['id'],createdAt=datetime.now(timezone.utc).isoformat())
         self.executor.submit(self._run,job_id,project)
         return job
 
     def _run(self,job_id,project):
         try:
-            self.repository.update(job_id,status='running')
-            output=self.repository.directory(job_id)/'video.mp4'
+            self.repository.update(job_id,status='running',startedAt=datetime.now(timezone.utc).isoformat())
+            output=self.repository.directory(job_id)/project.export['filename']
             manifest=RenderService().render(project,output,lambda value:self.repository.update(job_id,progress=value))
-            self.repository.update(job_id,status='completed',progress=1,manifest=manifest)
+            self.repository.update(job_id,status='completed',progress=1,manifest=manifest,completedAt=datetime.now(timezone.utc).isoformat())
         except Exception as error:
             self.repository.update(job_id,status='failed',error=str(error))
 
