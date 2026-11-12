@@ -1,0 +1,833 @@
+{
+  "clips": [
+    {
+      "id": "film",
+      "scene": "main",
+      "start": 0,
+      "duration": 40
+    }
+  ],
+  "paths": [
+    {
+      "id": "energy-route",
+      "type": "polyline",
+      "points": [
+        [
+          535.8,
+          696.848
+        ],
+        [
+          782.8188,
+          789.8528
+        ],
+        [
+          857.8224,
+          796.4132
+        ],
+        [
+          1071.9048,
+          877.0196
+        ],
+        [
+          1186.5312,
+          796.6232
+        ],
+        [
+          980.6808,
+          719.1248
+        ],
+        [
+          1095.3072,
+          638.7284
+        ],
+        [
+          785.154,
+          521.96
+        ],
+        [
+          977.2872,
+          594.2924
+        ],
+        [
+          1185.8760000000002,
+          672.8324
+        ],
+        [
+          1270.9679999999998,
+          704.8616
+        ],
+        [
+          1174.4352,
+          772.5656
+        ],
+        [
+          1240.308,
+          797.3624
+        ]
+      ]
+    }
+  ],
+  "tracks": [
+    {
+      "id": "site-opacity",
+      "target": "film/site",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 3,
+          "value": 0
+        },
+        {
+          "time": 4.2,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 39,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "site-wire-opacity",
+      "target": "film/site-wire",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 2.8,
+          "value": 1
+        },
+        {
+          "time": 3,
+          "value": 1
+        },
+        {
+          "time": 4.2,
+          "value": 0
+        },
+        {
+          "time": 37.7,
+          "value": 0
+        },
+        {
+          "time": 38.3,
+          "value": 1
+        },
+        {
+          "time": 39.7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "solar-opacity",
+      "target": "film/solar",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 4.1,
+          "value": 0
+        },
+        {
+          "time": 6.1,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 39,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "solar-wire-opacity",
+      "target": "film/solar-wire",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 2.8,
+          "value": 1
+        },
+        {
+          "time": 4.1,
+          "value": 1
+        },
+        {
+          "time": 6.1,
+          "value": 0
+        },
+        {
+          "time": 37.7,
+          "value": 0
+        },
+        {
+          "time": 38.3,
+          "value": 1
+        },
+        {
+          "time": 39.7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "bess-opacity",
+      "target": "film/bess",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 10.2,
+          "value": 0
+        },
+        {
+          "time": 12,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 39,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "bess-wire-opacity",
+      "target": "film/bess-wire",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 2.8,
+          "value": 1
+        },
+        {
+          "time": 10.2,
+          "value": 1
+        },
+        {
+          "time": 12,
+          "value": 0
+        },
+        {
+          "time": 37.7,
+          "value": 0
+        },
+        {
+          "time": 38.3,
+          "value": 1
+        },
+        {
+          "time": 39.7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "substation-opacity",
+      "target": "film/substation",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 15.3,
+          "value": 0
+        },
+        {
+          "time": 17.3,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 39,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "substation-wire-opacity",
+      "target": "film/substation-wire",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 2.8,
+          "value": 1
+        },
+        {
+          "time": 15.3,
+          "value": 1
+        },
+        {
+          "time": 17.3,
+          "value": 0
+        },
+        {
+          "time": 37.7,
+          "value": 0
+        },
+        {
+          "time": 38.3,
+          "value": 1
+        },
+        {
+          "time": 39.7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "transmission-opacity",
+      "target": "film/transmission",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 21.3,
+          "value": 0
+        },
+        {
+          "time": 23.2,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 39,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "transmission-wire-opacity",
+      "target": "film/transmission-wire",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 2.8,
+          "value": 1
+        },
+        {
+          "time": 21.3,
+          "value": 1
+        },
+        {
+          "time": 23.2,
+          "value": 0
+        },
+        {
+          "time": 37.7,
+          "value": 0
+        },
+        {
+          "time": 38.3,
+          "value": 1
+        },
+        {
+          "time": 39.7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "datacenter-opacity",
+      "target": "film/datacenter",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 26.3,
+          "value": 0
+        },
+        {
+          "time": 28.3,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 39,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "datacenter-wire-opacity",
+      "target": "film/datacenter-wire",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 0
+        },
+        {
+          "time": 2.8,
+          "value": 1
+        },
+        {
+          "time": 26.3,
+          "value": 1
+        },
+        {
+          "time": 28.3,
+          "value": 0
+        },
+        {
+          "time": 37.7,
+          "value": 0
+        },
+        {
+          "time": 38.3,
+          "value": 1
+        },
+        {
+          "time": 39.7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "energy-travel",
+      "target": "film/energy-point",
+      "animation": "followPath",
+      "start": 6.5,
+      "duration": 30.5,
+      "parameters": {
+        "path": "energy-route",
+        "speedMode": "constant"
+      },
+      "repeat": 0,
+      "easing": "linear"
+    },
+    {
+      "id": "energy-point-opacity",
+      "target": "film/energy-point",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 6.5,
+          "value": 0
+        },
+        {
+          "time": 8,
+          "value": 1
+        },
+        {
+          "time": 37.5,
+          "value": 1
+        },
+        {
+          "time": 38.3,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "energy-route-opacity",
+      "target": "film/energy-route",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 6.5,
+          "value": 0
+        },
+        {
+          "time": 8,
+          "value": 1
+        },
+        {
+          "time": 37.5,
+          "value": 1
+        },
+        {
+          "time": 38.3,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "opening-opacity",
+      "target": "film/opening",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 1
+        },
+        {
+          "time": 3.6,
+          "value": 1
+        },
+        {
+          "time": 4,
+          "value": 0
+        },
+        {
+          "time": 39,
+          "value": 0
+        },
+        {
+          "time": 39.7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "opening-label-opacity",
+      "target": "film/opening-label",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 0,
+          "value": 1
+        },
+        {
+          "time": 3.6,
+          "value": 1
+        },
+        {
+          "time": 4,
+          "value": 0
+        },
+        {
+          "time": 39,
+          "value": 0
+        },
+        {
+          "time": 39.7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "caption-0-title-opacity",
+      "target": "film/caption-0-title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 4,
+          "value": 0
+        },
+        {
+          "time": 4.45,
+          "value": 1
+        },
+        {
+          "time": 9.6,
+          "value": 1
+        },
+        {
+          "time": 10,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-0-subtitle-opacity",
+      "target": "film/caption-0-subtitle",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 4,
+          "value": 0
+        },
+        {
+          "time": 4.45,
+          "value": 1
+        },
+        {
+          "time": 9.6,
+          "value": 1
+        },
+        {
+          "time": 10,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-1-title-opacity",
+      "target": "film/caption-1-title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 10,
+          "value": 0
+        },
+        {
+          "time": 10.45,
+          "value": 1
+        },
+        {
+          "time": 14.6,
+          "value": 1
+        },
+        {
+          "time": 15,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-1-subtitle-opacity",
+      "target": "film/caption-1-subtitle",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 10,
+          "value": 0
+        },
+        {
+          "time": 10.45,
+          "value": 1
+        },
+        {
+          "time": 14.6,
+          "value": 1
+        },
+        {
+          "time": 15,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-2-title-opacity",
+      "target": "film/caption-2-title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 15,
+          "value": 0
+        },
+        {
+          "time": 15.45,
+          "value": 1
+        },
+        {
+          "time": 20.6,
+          "value": 1
+        },
+        {
+          "time": 21,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-2-subtitle-opacity",
+      "target": "film/caption-2-subtitle",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 15,
+          "value": 0
+        },
+        {
+          "time": 15.45,
+          "value": 1
+        },
+        {
+          "time": 20.6,
+          "value": 1
+        },
+        {
+          "time": 21,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-3-title-opacity",
+      "target": "film/caption-3-title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 21,
+          "value": 0
+        },
+        {
+          "time": 21.45,
+          "value": 1
+        },
+        {
+          "time": 25.6,
+          "value": 1
+        },
+        {
+          "time": 26,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-3-subtitle-opacity",
+      "target": "film/caption-3-subtitle",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 21,
+          "value": 0
+        },
+        {
+          "time": 21.45,
+          "value": 1
+        },
+        {
+          "time": 25.6,
+          "value": 1
+        },
+        {
+          "time": 26,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-4-title-opacity",
+      "target": "film/caption-4-title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 26,
+          "value": 0
+        },
+        {
+          "time": 26.45,
+          "value": 1
+        },
+        {
+          "time": 30.6,
+          "value": 1
+        },
+        {
+          "time": 31,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "caption-4-subtitle-opacity",
+      "target": "film/caption-4-subtitle",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 26,
+          "value": 0
+        },
+        {
+          "time": 26.45,
+          "value": 1
+        },
+        {
+          "time": 30.6,
+          "value": 1
+        },
+        {
+          "time": 31,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "closing-title-opacity",
+      "target": "film/closing-title",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 31,
+          "value": 0
+        },
+        {
+          "time": 31.7,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 38.5,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "closing-subtitle-opacity",
+      "target": "film/closing-subtitle",
+      "property": "opacity",
+      "keyframes": [
+        {
+          "time": 31,
+          "value": 0
+        },
+        {
+          "time": 31.7,
+          "value": 1
+        },
+        {
+          "time": 37.7,
+          "value": 1
+        },
+        {
+          "time": 38.5,
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

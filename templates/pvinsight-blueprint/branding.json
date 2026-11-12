@@ -1,0 +1,21 @@
+{
+  "logo": "logo",
+  "colors": {
+    "background": "#071421",
+    "primary": "#42E1E6",
+    "text": "#EEF6FA",
+    "muted": "#91A8BB"
+  },
+  "textStyles": {
+    "heading": {
+      "font": "heading-font",
+      "size": 76,
+      "color": "$colors.text"
+    },
+    "caption": {
+      "font": "body-font",
+      "size": 20,
+      "color": "$colors.primary"
+    }
+  }
+}

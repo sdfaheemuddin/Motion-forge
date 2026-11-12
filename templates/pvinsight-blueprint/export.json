@@ -1,0 +1,17 @@
+{
+  "filename": "pvinsight-blueprint-template.mp4",
+  "directory": "../../output/pvinsight-blueprint-template",
+  "video": {
+    "codec": "h264",
+    "quality": 18,
+    "pixelFormat": "yuv420p",
+    "preset": "fast"
+  },
+  "audio": {
+    "enabled": false
+  },
+  "loop": {
+    "validateSeam": true,
+    "tolerance": 1
+  }
+}

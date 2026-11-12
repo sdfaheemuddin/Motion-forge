@@ -47,6 +47,19 @@ Every CLI command also works as `python -m motion_forge ...`. Failed validation 
 
 All configuration and asset paths resolve relative to the entry `project.json`. There are no PVInsight-specific branches in the engine. Start another video by copying `templates/basic-motion/` and editing its JSON files.
 
+## Reusable templates
+
+- [Basic motion](templates/basic-motion/): a short generic starting point.
+- [PVInsight Blueprint to Reality](templates/pvinsight-blueprint/): the complete PVI video, including JSON configuration, transparent vertical PNGs, blueprint geometry and logos.
+
+Copy an entire template into `projects/<your-project>` to customize it, or run the PVI template directly:
+
+```powershell
+.\render.bat templates\pvinsight-blueprint\project.json
+```
+
+The PVI template exports to `output/pvinsight-blueprint-template/`, separately from the original example. See the [template guide](templates/README.md).
+
 ## Supported in 0.1
 
 - Image, text, shape, path, group and video elements.
