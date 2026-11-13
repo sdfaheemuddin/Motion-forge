@@ -36,7 +36,21 @@ export function sceneEntries(
   }));
 }
 export function sceneById(documents: Documents, id: string) {
-  return sceneEntries(documents).find((item) => item.scene.id === id)?.scene;
+  const found = sceneEntries(documents).find(
+    (item) => item.scene.id === id,
+  )?.scene;
+  if (found && !found.layout) return found;
+  // Layout and composition documents are editable through the same element tools.
+  const project = projectDoc(documents);
+  const target = found?.composition ?? id;
+  for (const file of [
+    ...(project.layouts ?? []),
+    ...(project.compositions ?? []),
+  ]) {
+    const data = documents[file] as Scene;
+    if (data.id === target) return data;
+  }
+  return found;
 }
 export function flatten(elements: VideoElement[]): VideoElement[] {
   return elements.flatMap((element) => [
@@ -109,8 +123,15 @@ export function removeElement(
   scene.elements = filter(scene.elements);
   const timeline = timelineDoc(documents);
   const clips = timeline.clips
-    .filter((clip) => clip.scene === sceneId)
+    .filter(
+      (clip) =>
+        clip.scene === sceneId ||
+        sceneEntries(documents).some(
+          (x) => x.scene.id === clip.scene && x.scene.layout === sceneId,
+        ),
+    )
     .map((clip) => clip.id);
+  clips.push(scene.id);
   timeline.tracks = (timeline.tracks ?? []).filter(
     (track) =>
       !clips.some((clip) =>
@@ -119,13 +140,28 @@ export function removeElement(
   );
 }
 export function assetUsage(documents: Documents, assetId: string): string[] {
-  const uses = sceneEntries(documents).flatMap(({ scene }) =>
-    flatten(scene.elements)
+  const uses = [
+    ...sceneEntries(documents),
+    ...[
+      ...(projectDoc(documents).layouts ?? []),
+      ...(projectDoc(documents).compositions ?? []),
+    ].map((file) => ({ file, scene: documents[file] as Scene })),
+  ].flatMap(({ scene }) =>
+    flatten(scene.elements ?? [])
       .filter(
         (element) => element.asset === assetId || element.font === assetId,
       )
       .map((element) => `${scene.id} / ${element.id}`),
   );
+  for (const { scene } of sceneEntries(documents))
+    if (Object.values(scene.values ?? {}).includes(assetId))
+      uses.push(`Scene content / ${scene.id}`);
+  for (const file of projectDoc(documents).layouts ?? [])
+    if (
+      (documents[file] as { navigation?: { font?: string } }).navigation
+        ?.font === assetId
+    )
+      uses.push(`Navigation / ${file}`);
   const branding = brandingDoc(documents);
   if (branding.logo === assetId) uses.push("Branding logo");
   for (const [name, style] of Object.entries(branding.textStyles ?? {}))

@@ -8,6 +8,7 @@ from ..effects.registry import EFFECTS
 from ..effects import builtin  # Register built-in effects.
 from ..utils.paths import resource_directory
 from ..utils.errors import MotionForgeError
+from ..services.presentation_service import layout_elements, camera_rect
 from .registry import RENDERERS
 from . import builtin as builtin_renderers
 
@@ -51,7 +52,22 @@ class FrameRenderer:
         for clip in sorted(self.project.timeline['clips'],key=lambda item:item.get('layer',0)):
             if clip['start']<=time<clip['start']+clip['duration']:
                 scene=self.project.scenes[clip['scene']]
-                for element in sorted(scene['elements'],key=lambda item:item.get('layer',0)):
+                if 'layout' in scene:
+                    layout=self.project.layouts[scene['layout']]
+                    content=self.project.compositions[scene['composition']]
+                    # Shared content always samples the global clock, across scene boundaries.
+                    size=(content['canvas']['width'],content['canvas']['height'])
+                    surface=Image.new('RGBA',size)
+                    global_clip={'id':content['id'],'start':0,'duration':self.project.duration}
+                    for element in sorted(content['elements'],key=lambda item:item.get('layer',0)):
+                        surface.alpha_composite(self.element(element,global_clip,time,canvas_size=size))
+                    viewport=layout['viewport'];focus=camera_rect(self.project,clip,time)
+                    cropped=surface.transform((round(viewport['width']),round(viewport['height'])),Image.Transform.EXTENT,(focus['x'],focus['y'],focus['x']+focus['width'],focus['y']+focus['height']),Image.Resampling.BICUBIC)
+                    output.alpha_composite(cropped,(round(viewport['x']),round(viewport['y'])))
+                    items=layout_elements(layout,scene,self.project.branding)
+                else:
+                    items=scene['elements']
+                for element in sorted(items,key=lambda item:item.get('layer',0)):
                     output.alpha_composite(self.element(element,clip,time))
         return output
 

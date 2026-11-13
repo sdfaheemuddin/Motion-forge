@@ -21,7 +21,8 @@ import { useBuilder, BuilderProvider } from "./viewmodels/BuilderContext";
 import { ProjectsView } from "./views/ProjectsView";
 import { AssetsView } from "./views/AssetsView";
 import { BrandingView } from "./views/BrandingView";
-import { ScenesView } from "./views/ScenesView";
+import { LayoutDesignView } from "./views/ScenesView";
+import { SceneStoryboardView } from "./views/SceneStoryboardView";
 import { TimelineView } from "./views/TimelineView";
 import { PreviewView } from "./views/PreviewView";
 import { ExportView } from "./views/ExportView";
@@ -32,7 +33,8 @@ const tabs: { id: Tab; label: string; icon: typeof FolderOpen }[] = [
   { id: "projects", label: "Projects", icon: FolderOpen },
   { id: "assets", label: "Assets", icon: Images },
   { id: "branding", label: "Branding", icon: Palette },
-  { id: "scenes", label: "Scene builder", icon: PanelsTopLeft },
+  { id: "layouts", label: "Layout Design", icon: PanelsTopLeft },
+  { id: "scenes", label: "Scenes", icon: Clapperboard },
   { id: "timeline", label: "Timeline", icon: Clapperboard },
   { id: "preview", label: "Preview", icon: MonitorPlay },
   { id: "export", label: "Export", icon: Download },
@@ -43,7 +45,8 @@ function Workspace() {
       projects: ProjectsView,
       assets: AssetsView,
       branding: BrandingView,
-      scenes: ScenesView,
+      layouts: LayoutDesignView,
+      scenes: SceneStoryboardView,
       timeline: TimelineView,
       preview: PreviewView,
       export: ExportView,

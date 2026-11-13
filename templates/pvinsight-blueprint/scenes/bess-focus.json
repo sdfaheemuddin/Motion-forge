@@ -1,0 +1,23 @@
+{
+  "id": "bess-focus",
+  "layout": "infrastructure-layout",
+  "composition": "pvi-world",
+  "elements": [],
+  "values": {
+    "eyebrow": "FOLLOW THE ENERGY",
+    "title": "BATTERY ENERGY STORAGE",
+    "subtitle": "Store energy. Unlock flexibility."
+  },
+  "activeNavigationItem": "bess",
+  "camera": {
+    "focus": {
+      "x": 735,
+      "y": 560,
+      "width": 650,
+      "height": 450
+    },
+    "transition": 1.3,
+    "fit": "contain",
+    "easing": "easeInOut"
+  }
+}

@@ -147,7 +147,7 @@ class ValidationService:
                     if index >= len(targets[track['target']].get('effects',[])):
                         errors.append(f'{location}/property: effect index {index} does not exist')
             start, end = interval(track)
-            if end > duration+1e-6:
+            if end > duration+1e-6 and track['target'].split('/')[0] not in project.compositions:
                 errors.append(f'{location}: track extends beyond project duration')
             valid_tracks.append(track)
         for index, first in enumerate(valid_tracks):

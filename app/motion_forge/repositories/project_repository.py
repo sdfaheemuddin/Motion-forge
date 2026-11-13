@@ -43,6 +43,13 @@ class ProjectRepository:
             if scene['id'] in scenes:
                 raise MotionForgeError(f"Duplicate scene ID '{scene['id']}' in {reference}")
             scenes[scene['id']] = scene
+        resources={}
+        for collection,kind in (('layouts','layout'),('compositions','composition')):
+            resources[collection]={}
+            for reference in document.get(collection,[]):
+                item=load_reference(reference,kind)
+                if item['id'] in resources[collection]: raise MotionForgeError(f'Duplicate {kind} ID: {item["id"]}')
+                resources[collection][item['id']]=item
         assets = {}
         for asset in asset_document['assets']:
             if asset['id'] in assets:
@@ -52,5 +59,7 @@ class ProjectRepository:
                 source=project_path(root,asset['source'])
                 validator.validate_document(read_json(source),'pathdata',source)
         project = Project(root, document, assets, branding, scenes, timeline, export, sources)
-        validator.validate_project(project)
+        project.layouts=resources['layouts'];project.compositions=resources['compositions']
+        from ..services.presentation_service import validate_presentation
+        validate_presentation(project,validator)
         return project

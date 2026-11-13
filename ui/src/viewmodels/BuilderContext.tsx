@@ -27,8 +27,10 @@ import {
   timelineDoc,
   removeElement,
   elementById,
+  sceneById,
   assetDoc,
 } from "./projectModel";
+import { addLayout, addPresentationScene, layouts } from "./presentationModel";
 import { createElement, addScene, duplicateElement } from "./sceneModel";
 
 function useBuilderModel() {
@@ -66,7 +68,7 @@ function useBuilderModel() {
     dispatch({ type: "load", bundle: value });
     const first = sceneEntries(value.documents)[0]?.scene;
     setSceneId(first?.id ?? "");
-    setElementId(first?.elements[0]?.id ?? "");
+    setElementId(first?.elements?.[0]?.id ?? "");
     setTime(0);
     setValidation(null);
     setPreviewUrl("");
@@ -75,7 +77,12 @@ function useBuilderModel() {
   }, []);
   const open = useCallback(
     async (project: string) => {
-      if (busy) { setToast("Wait for the current operation before opening another project."); return; }
+      if (busy) {
+        setToast(
+          "Wait for the current operation before opening another project.",
+        );
+        return;
+      }
       const state = current.current;
       if (
         state.bundle &&
@@ -238,10 +245,7 @@ function useBuilderModel() {
     setSceneId(id);
     const docs = current.current.bundle?.documents;
     if (!docs) return;
-    setElementId(
-      sceneEntries(docs).find((item) => item.scene.id === id)?.scene.elements[0]
-        ?.id ?? "",
-    );
+    setElementId(sceneById(docs, id)?.elements?.[0]?.id ?? "");
     const clips = timelineDoc(docs).clips.filter((clip) => clip.scene === id);
     if (
       !clips.some(
@@ -254,14 +258,15 @@ function useBuilderModel() {
   const add = (type: string, asset?: Asset) => {
     const value = current.current.bundle;
     if (!value || !sceneId) return;
-    const item = createElement(value.documents, sceneId, type, asset?.id);
+    const owner = sceneById(value.documents, sceneId)?.id ?? sceneId;
+    const item = createElement(value.documents, owner, type, asset?.id);
     edit((documents) => {
-      sceneEntries(documents)
-        .find((entry) => entry.scene.id === sceneId)!
-        .scene.elements.push(item);
+      sceneById(documents, owner)!.elements.push(item);
     });
     setElementId(item.id);
-    setTab("scenes");
+    selectScene(owner);
+    setElementId(item.id);
+    setTab("layouts");
   };
   const updateElement = (
     id: string,
@@ -290,7 +295,8 @@ function useBuilderModel() {
   const newScene = () => {
     if (!bundle) return;
     const copy = structuredClone(bundle.documents),
-      id = addScene(copy);
+      id =
+        (layouts(copy).length || addLayout(copy), addPresentationScene(copy));
     edit((documents) => Object.assign(documents, copy));
     setSceneId(id);
     setElementId("title");

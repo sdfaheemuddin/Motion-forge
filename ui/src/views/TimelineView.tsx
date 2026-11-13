@@ -20,6 +20,12 @@ import {
   uniqueId,
   projectDoc,
 } from "../viewmodels/projectModel";
+import {
+  compositions,
+  layouts,
+  overlayElements,
+} from "../viewmodels/presentationModel";
+import { brandingDoc } from "../viewmodels/projectModel";
 import { CanvasStage } from "../components/CanvasStage";
 import { Transport } from "../components/Transport";
 import {
@@ -126,15 +132,30 @@ export function TimelineView() {
     timeline = timelineDoc(bundle.documents),
     tracks = timeline.tracks ?? [],
     paths = timeline.paths ?? [];
-  const targets = timeline.clips.flatMap((clip) => {
-    const scene = sceneEntries(bundle.documents).find(
-      (item) => item.scene.id === clip.scene,
-    )?.scene;
-    return flatten(scene?.elements ?? []).map((element) => ({
-      value: `${clip.id}/${element.id}`,
-      label: `${clip.scene} / ${element.id}`,
-    }));
-  });
+  const targets = [
+    ...timeline.clips.flatMap((clip) => {
+      const scene = sceneEntries(bundle.documents).find(
+        (item) => item.scene.id === clip.scene,
+      )?.scene;
+      const design = layouts(bundle.documents).find(
+        (x) => x.design.id === scene?.layout,
+      )?.design;
+      return flatten(
+        design && scene
+          ? overlayElements(design, scene, brandingDoc(bundle.documents))
+          : (scene?.elements ?? []),
+      ).map((element) => ({
+        value: `${clip.id}/${element.id}`,
+        label: `${clip.scene} / ${element.id}`,
+      }));
+    }),
+    ...compositions(bundle.documents).flatMap(({ composition }) =>
+      flatten(composition.elements).map((element) => ({
+        value: `${composition.id}/${element.id}`,
+        label: `${composition.name} / ${element.id}`,
+      })),
+    ),
+  ];
   const selected =
     tracks.find((track) => track.id === selectedId) ??
     tracks.find((track) => track.target.endsWith(`/${vm.elementId}`)) ??
@@ -147,8 +168,31 @@ export function TimelineView() {
       );
       if (item) update(item);
     });
-  const targetElement = selected ? timeline.clips.filter(clip => selected.target.startsWith(clip.id + "/")).flatMap(clip => flatten(sceneEntries(bundle.documents).find(item => item.scene.id === clip.scene)?.scene.elements ?? [])).find(element => element.id === selected.target.split("/")[1]) : undefined;
-  const effectProperties = targetElement?.effects?.flatMap((effect, index) => ["radius", "intensity", "color"].map(field => `effects.${index}.${field}`)) ?? [];
+  const targetElement = selected
+    ? (compositions(bundle.documents)
+        .flatMap((x) =>
+          x.composition.id === selected.target.split("/")[0]
+            ? flatten(x.composition.elements)
+            : [],
+        )
+        .find((e) => e.id === selected.target.split("/")[1]) ??
+      timeline.clips
+        .filter((clip) => selected.target.startsWith(clip.id + "/"))
+        .flatMap((clip) =>
+          flatten(
+            sceneEntries(bundle.documents).find(
+              (item) => item.scene.id === clip.scene,
+            )?.scene.elements ?? [],
+          ),
+        )
+        .find((element) => element.id === selected.target.split("/")[1]))
+    : undefined;
+  const effectProperties =
+    targetElement?.effects?.flatMap((effect, index) =>
+      ["radius", "intensity", "color"].map(
+        (field) => `effects.${index}.${field}`,
+      ),
+    ) ?? [];
   const duration = project.timeline.duration;
   const makeTrack = () => {
     const target =
@@ -256,6 +300,25 @@ export function TimelineView() {
           />
         </div>
         <Transport />
+        {layouts(bundle.documents).length > 0 && (
+          <div className="camera-track-summary">
+            <strong>CAMERA / NAVIGATION</strong>
+            {timeline.clips.map((clip) => {
+              const scene = sceneEntries(bundle.documents).find(
+                (x) => x.scene.id === clip.scene,
+              )?.scene;
+              return scene?.layout ? (
+                <span key={clip.id}>
+                  {clip.start}s · {scene.values?.title ?? scene.id} ·{" "}
+                  {scene.camera?.transition ?? 1.3}s move ·{" "}
+                  {scene.activeNavigationItem === "*"
+                    ? "all labels"
+                    : scene.activeNavigationItem || "none"}
+                </span>
+              ) : null;
+            })}
+          </div>
+        )}
         <div className="timeline-editor">
           <div className="timeline-header">
             <div className="segmented">
@@ -893,7 +956,9 @@ export function TimelineView() {
                         updateTrack(selected.id, (track) => {
                           track.property = value;
                           const vector = ["position", "scale"].includes(value),
-                            color = ["fill", "stroke"].includes(value) || value.endsWith(".color");
+                            color =
+                              ["fill", "stroke"].includes(value) ||
+                              value.endsWith(".color");
                           track.keyframes = track.keyframes!.map(
                             (frame, index) => ({
                               ...frame,
@@ -913,7 +978,9 @@ export function TimelineView() {
                     >
                       {[
                         ...properties,
-                        ...effectProperties.filter(property => property !== selected.property),
+                        ...effectProperties.filter(
+                          (property) => property !== selected.property,
+                        ),
                         ...(selected.property?.startsWith("effects.")
                           ? [selected.property]
                           : []),

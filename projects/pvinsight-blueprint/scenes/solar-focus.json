@@ -1,0 +1,23 @@
+{
+  "id": "solar-focus",
+  "layout": "infrastructure-layout",
+  "composition": "pvi-world",
+  "elements": [],
+  "values": {
+    "eyebrow": "FOLLOW THE ENERGY",
+    "title": "SOLAR PV",
+    "subtitle": "Single-axis trackers. Precision engineered."
+  },
+  "activeNavigationItem": "pv",
+  "camera": {
+    "focus": {
+      "x": 410,
+      "y": 395,
+      "width": 740,
+      "height": 460
+    },
+    "transition": 1.3,
+    "fit": "contain",
+    "easing": "easeInOut"
+  }
+}

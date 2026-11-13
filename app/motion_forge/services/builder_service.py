@@ -64,7 +64,7 @@ class BuilderService:
     def documents(self,path):
         entry=read_json(path)
         try:
-            references=[entry['assets'],entry['timeline']['file'],entry['export'],*entry['scenes']]
+            references=[entry['assets'],entry['timeline']['file'],entry['export'],*entry['scenes'],*entry.get('layouts',[]),*entry.get('compositions',[])]
             if entry.get('branding'):
                 references.append(entry['branding'])
         except (KeyError,TypeError) as error:
@@ -134,7 +134,7 @@ class BuilderService:
             raise MotionForgeError('The draft must include project.json.')
         ValidationService().validate_document(documents['project.json'],'project','project.json')
         entry=documents['project.json']
-        expected={'project.json',entry['assets'],entry['timeline']['file'],entry['export'],*entry['scenes']}
+        expected={'project.json',entry['assets'],entry['timeline']['file'],entry['export'],*entry['scenes'],*entry.get('layouts',[]),*entry.get('compositions',[])}
         if entry.get('branding'):
             expected.add(entry['branding'])
         if set(documents)!=expected:
@@ -242,6 +242,10 @@ class BuilderService:
                              'timeline.json':{'clips':[{'id':'main','scene':'main','start':0,'duration':10}],'tracks':[],'paths':[],'audio':[]},
                              'scenes/main.json':{'id':'main','elements':[{'id':'title','type':'text','text':'Your story starts here','size':72,'color':'#FFFFFF','transform':{'position':[120,200]}}]},
                              'export.json':{'filename':project_id+'.mp4','directory':'../../output/'+project_id,'video':{'codec':'h264','quality':18,'preset':'fast','pixelFormat':'yuv420p'},'audio':{'enabled':False},'loop':{'validateSeam':False}}}
+                    entry['layouts']=['layouts/default.json'];entry['compositions']=['compositions/world.json']
+                    initial['layouts/default.json']={'id':'default-layout','name':'Title and content','viewport':{'x':80,'y':350,'width':1760,'height':590},'elements':[{'id':'logo','type':'image','binding':'logo','width':240,'height':80,'transform':{'position':[100,30]}},{'id':'title','type':'text','binding':'title','text':'Your story starts here','size':68,'color':'#FFFFFF','width':1700,'transform':{'position':[100,170]}},{'id':'subtitle','type':'text','binding':'subtitle','text':'Add your message','size':30,'color':'#70E1C4','transform':{'position':[100,275]}}],'navigation':{'items':[{'id':'first','label':'FIRST'},{'id':'second','label':'SECOND'}],'x':100,'y':1010,'width':1720,'size':18,'color':'#718595','activeColor':'#70E1C4','underline':True}}
+                    initial['compositions/world.json']={'id':'world','name':'Shared composition','canvas':{'width':1920,'height':1080},'elements':[{'id':'content','type':'text','text':'Add images and graphics in Layout Design','size':48,'color':'#FFFFFF','transform':{'position':[100,350]}}]}
+                    initial['scenes/main.json']={'id':'main','elements':[],'layout':'default-layout','composition':'world','values':{'title':'Your story starts here','subtitle':'Add your message'},'activeNavigationItem':'','camera':{'focus':{'x':0,'y':0,'width':1920,'height':1080},'transition':1.3,'fit':'contain','easing':'easeInOut'}}
                     for file,data in initial.items():
                         target=destination/file;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(json.dumps(data,indent=2),encoding='utf-8')
                 entry.update(id=project_id,name=name)

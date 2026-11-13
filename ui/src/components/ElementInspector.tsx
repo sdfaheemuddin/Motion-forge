@@ -62,7 +62,7 @@ export function ElementInspector() {
     });
   const animatedPosition = (timelineDoc(docs).tracks ?? []).some(
     (track) =>
-      track.target === `${clip?.id}/${element.id}` &&
+      track.target === `${clip?.id ?? vm.sceneId}/${element.id}` &&
       (track.property === "position" ||
         ["followPath", "slideIn"].includes(track.animation ?? "")),
   );

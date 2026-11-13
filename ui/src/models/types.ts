@@ -24,6 +24,7 @@ export interface Effect {
 export interface VideoElement {
   id: string;
   type: string;
+  binding?: string;
   asset?: string;
   style?: string;
   layer?: number;
@@ -54,6 +55,16 @@ export interface VideoElement {
   children?: VideoElement[];
 }
 export interface Scene {
+  layout?: string;
+  composition?: string;
+  values?: Record<string, string>;
+  activeNavigationItem?: string;
+  camera?: {
+    focus?: Rect;
+    transition?: number;
+    fit?: "fill" | "contain";
+    easing?: string;
+  };
   id: string;
   elements: VideoElement[];
 }
@@ -134,6 +145,8 @@ export interface ProjectDocument {
   assets: string;
   branding?: string;
   scenes: string[];
+  layouts?: string[];
+  compositions?: string[];
   export: string;
 }
 export interface ExportSettings {
@@ -199,7 +212,38 @@ export type Tab =
   | "projects"
   | "assets"
   | "branding"
+  | "layouts"
   | "scenes"
   | "timeline"
   | "preview"
   | "export";
+
+export interface Rect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+export interface LayoutDesign {
+  id: string;
+  name: string;
+  elements: VideoElement[];
+  viewport: Rect;
+  navigation?: {
+    items: { id: string; label: string }[];
+    x?: number;
+    y?: number;
+    width?: number;
+    size?: number;
+    color?: string;
+    activeColor?: string;
+    underline?: boolean;
+    font?: string;
+  };
+}
+export interface Composition {
+  id: string;
+  name: string;
+  canvas: { width: number; height: number };
+  elements: VideoElement[];
+}

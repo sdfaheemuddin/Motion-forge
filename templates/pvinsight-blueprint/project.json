@@ -15,7 +15,19 @@
   "assets": "assets.json",
   "branding": "branding.json",
   "scenes": [
-    "scenes/main.json"
+    "scenes/main.json",
+    "scenes/solar-focus.json",
+    "scenes/bess-focus.json",
+    "scenes/substation-focus.json",
+    "scenes/transmission-focus.json",
+    "scenes/datacenter-focus.json",
+    "scenes/overview.json"
   ],
-  "export": "export.json"
+  "export": "export.json",
+  "layouts": [
+    "layouts/infrastructure.json"
+  ],
+  "compositions": [
+    "compositions/world.json"
+  ]
 }

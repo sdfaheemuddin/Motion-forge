@@ -1,0 +1,23 @@
+{
+  "id": "transmission-focus",
+  "layout": "infrastructure-layout",
+  "composition": "pvi-world",
+  "elements": [],
+  "values": {
+    "eyebrow": "FOLLOW THE ENERGY",
+    "title": "TRANSMISSION",
+    "subtitle": "Carry energy further."
+  },
+  "activeNavigationItem": "transmission",
+  "camera": {
+    "focus": {
+      "x": 630,
+      "y": 245,
+      "width": 650,
+      "height": 550
+    },
+    "transition": 1.3,
+    "fit": "contain",
+    "easing": "easeInOut"
+  }
+}

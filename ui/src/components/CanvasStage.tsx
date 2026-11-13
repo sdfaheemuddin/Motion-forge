@@ -7,8 +7,15 @@ import {
   timelineDoc,
   flatten,
 } from "../viewmodels/projectModel";
+import {
+  layouts,
+  compositions,
+  editableEntries,
+  overlayElements,
+  cameraRect,
+} from "../viewmodels/presentationModel";
 import { animatedState, pathPoints } from "../viewmodels/animationModel";
-import type { Bundle, Clip, Vec2, VideoElement } from "../models/types";
+import type { Bundle, Clip, Vec2, VideoElement, Rect } from "../models/types";
 
 interface Hit {
   id: string;
@@ -28,9 +35,17 @@ const clamp = (n: number, low: number, high: number) =>
 export function CanvasStage({
   interactive = true,
   editPathId,
+  authoring = false,
+  sourceId,
+  focusRect,
+  onFocusRectChange,
 }: {
   interactive?: boolean;
   editPathId?: string;
+  authoring?: boolean;
+  sourceId?: string;
+  focusRect?: Rect;
+  onFocusRectChange?: (rect: Rect) => void;
 }) {
   const vm = useBuilder(),
     canvas = useRef<HTMLCanvasElement>(null),
@@ -50,8 +65,22 @@ export function CanvasStage({
       point?: number;
       scale?: Vec2;
     } | null>(null);
-  const bundle = vm.bundle,
-    project = vm.project;
+  const bundle = vm.bundle;
+  const source =
+    bundle && (sourceId || authoring)
+      ? compositions(bundle.documents).find(
+          (x) => x.composition.id === (sourceId ?? vm.sceneId),
+        )?.composition
+      : undefined;
+  const project =
+    vm.project && source
+      ? { ...vm.project, canvas: { ...vm.project.canvas, ...source.canvas } }
+      : vm.project;
+  const focusDrag = useRef<{
+    mode: "draw" | "move" | "resize";
+    point: Vec2;
+    rect: Rect;
+  } | null>(null);
   useEffect(() => {
     if (!shell.current || !project) return;
     const observer = new ResizeObserver(([entry]) => {
@@ -125,6 +154,7 @@ export function CanvasStage({
     ctx.clearRect(0, 0, el.width, el.height);
     ctx.fillStyle = color(project.canvas.background, "#071421");
     ctx.fillRect(0, 0, el.width, el.height);
+    let renderCanvas = project.canvas;
     function draw(
       element: VideoElement,
       clip: Clip,
@@ -249,8 +279,8 @@ export function CanvasStage({
         height = state.height ?? (state.radius ?? 20) * 2;
       }
       if (state.type === "group" || state.type === "path") {
-        width = state.width ?? project!.canvas.width;
-        height = state.height ?? project!.canvas.height;
+        width = state.width ?? renderCanvas.width;
+        height = state.height ?? renderCanvas.height;
       }
       ctx.translate(-anchor[0] * width, -anchor[1] * height);
       const matrix = ctx.getTransform();
@@ -383,21 +413,104 @@ export function CanvasStage({
       }
       ctx.restore();
     }
-    for (const clip of [...timeline.clips].sort(
-      (a, b) => (a.layer ?? 0) - (b.layer ?? 0),
-    )) {
-      const scene = sceneEntries(bundle.documents).find(
-        (item) => item.scene.id === clip.scene,
-      )?.scene;
-      if (
-        scene &&
-        clip.start <= vm.time &&
-        vm.time < clip.start + clip.duration
-      )
-        for (const element of [...scene.elements].sort(
+    const fullClip = (id: string): Clip => ({
+      id,
+      scene: id,
+      start: 0,
+      duration: project.timeline.duration,
+    });
+    if (authoring) {
+      const entry = editableEntries(bundle.documents).find(
+        (x) => x.scene.id === (sourceId ?? vm.sceneId),
+      );
+      const layout = layouts(bundle.documents).find(
+        (x) => x.design.id === vm.sceneId,
+      )?.design;
+      const items = layout
+        ? overlayElements(layout, {}, branding)
+        : (entry?.scene.elements ?? []);
+      for (const element of [...items].sort(
+        (a, b) => (a.layer ?? 0) - (b.layer ?? 0),
+      ))
+        draw(
+          element,
+          fullClip(sourceId ?? vm.sceneId),
+          sourceId ?? vm.sceneId,
+          vm.time,
+        );
+      if (layout) {
+        const v = layout.viewport;
+        ctx.save();
+        ctx.strokeStyle = "#70E1C4";
+        ctx.setLineDash([12, 8]);
+        ctx.lineWidth = 3;
+        ctx.strokeRect(v.x, v.y, v.width, v.height);
+        ctx.font = "22px sans-serif";
+        ctx.fillStyle = "#70E1C4";
+        ctx.fillText("CONTENT VIEWPORT", v.x + 15, v.y + 30);
+        ctx.restore();
+      }
+    } else
+      for (const clip of [...timeline.clips].sort(
+        (a, b) => (a.layer ?? 0) - (b.layer ?? 0),
+      )) {
+        const scene = sceneEntries(bundle.documents).find(
+          (x) => x.scene.id === clip.scene,
+        )?.scene;
+        if (
+          !scene ||
+          vm.time < clip.start ||
+          vm.time >= clip.start + clip.duration
+        )
+          continue;
+        let items = scene.elements ?? [];
+        if (scene.layout) {
+          const layout = layouts(bundle.documents).find(
+              (x) => x.design.id === scene.layout,
+            )?.design,
+            comp = compositions(bundle.documents).find(
+              (x) => x.composition.id === scene.composition,
+            )?.composition;
+          if (!layout || !comp) continue;
+          const v = layout.viewport,
+            focus = cameraRect(bundle.documents, clip, vm.time);
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(v.x, v.y, v.width, v.height);
+          ctx.clip();
+          ctx.translate(v.x, v.y);
+          ctx.scale(v.width / focus.width, v.height / focus.height);
+          ctx.translate(-focus.x, -focus.y);
+          // Match the engine's source-canvas clipping, including Fit letterboxing.
+          ctx.beginPath();
+          ctx.rect(0, 0, comp.canvas.width, comp.canvas.height);
+          ctx.clip();
+          renderCanvas = comp.canvas;
+          for (const element of [...comp.elements].sort(
+            (a, b) => (a.layer ?? 0) - (b.layer ?? 0),
+          ))
+            draw(element, fullClip(comp.id), comp.id, vm.time);
+          ctx.restore();
+          renderCanvas = project.canvas;
+          items = overlayElements(layout, scene, branding);
+        }
+        for (const element of [...items].sort(
           (a, b) => (a.layer ?? 0) - (b.layer ?? 0),
         ))
           draw(element, clip, scene.id, vm.time);
+      }
+    if (focusRect) {
+      const r = focusRect;
+      ctx.save();
+      ctx.fillStyle = "#70E1C422";
+      ctx.fillRect(r.x, r.y, r.width, r.height);
+      ctx.strokeStyle = "#70E1C4";
+      ctx.lineWidth = Math.max(2, el.width / fit.width);
+      ctx.strokeRect(r.x, r.y, r.width, r.height);
+      const h = (el.width / fit.width) * 8;
+      ctx.fillStyle = "#70E1C4";
+      ctx.fillRect(r.x + r.width - h / 2, r.y + r.height - h / 2, h, h);
+      ctx.restore();
     }
     hits.current = allHits;
     if (interactive) {
@@ -452,6 +565,9 @@ export function CanvasStage({
     interactive,
     editPathId,
     fit.width,
+    authoring,
+    sourceId,
+    focusRect,
   ]);
 
   const coordinates = (event: React.PointerEvent): Vec2 => {
@@ -462,7 +578,25 @@ export function CanvasStage({
     ];
   };
   const down = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!interactive || !bundle || !project) return;
+    if (!bundle || !project) return;
+    if (onFocusRectChange && focusRect) {
+      const p = coordinates(event),
+        r = focusRect,
+        tolerance = (project.canvas.width / fit.width) * 12;
+      const mode =
+        Math.hypot(p[0] - r.x - r.width, p[1] - r.y - r.height) < tolerance
+          ? "resize"
+          : p[0] >= r.x &&
+              p[0] <= r.x + r.width &&
+              p[1] >= r.y &&
+              p[1] <= r.y + r.height
+            ? "move"
+            : "draw";
+      focusDrag.current = { mode, point: p, rect: { ...r } };
+      event.currentTarget.setPointerCapture(event.pointerId);
+      return;
+    }
+    if (!interactive) return;
     const point = coordinates(event),
       tolerance =
         (project.canvas.width / canvas.current!.getBoundingClientRect().width) *
@@ -541,6 +675,42 @@ export function CanvasStage({
     event.currentTarget.setPointerCapture(event.pointerId);
   };
   const move = (event: React.PointerEvent<HTMLCanvasElement>) => {
+    const fd = focusDrag.current;
+    if (fd && project && onFocusRectChange) {
+      const p = coordinates(event),
+        w = project.canvas.width,
+        h = project.canvas.height,
+        r = fd.rect;
+      let next: Rect;
+      if (fd.mode === "move")
+        next = {
+          ...r,
+          x: clamp(r.x + p[0] - fd.point[0], 0, Math.max(0, w - r.width)),
+          y: clamp(r.y + p[1] - fd.point[1], 0, Math.max(0, h - r.height)),
+        };
+      else if (fd.mode === "resize")
+        next = {
+          ...r,
+          width: clamp(p[0] - r.x, 1, w - r.x),
+          height: clamp(p[1] - r.y, 1, h - r.y),
+        };
+      else {
+        const x = clamp(Math.min(fd.point[0], p[0]), 0, w - 1),
+          y = clamp(Math.min(fd.point[1], p[1]), 0, h - 1);
+        next = {
+          x,
+          y,
+          width: clamp(Math.abs(p[0] - fd.point[0]), 1, w - x),
+          height: clamp(Math.abs(p[1] - fd.point[1]), 1, h - y),
+        };
+      }
+      onFocusRectChange(
+        Object.fromEntries(
+          Object.entries(next).map(([k, v]) => [k, Math.round(v)]),
+        ) as unknown as Rect,
+      );
+      return;
+    }
     const value = drag.current;
     if (!value || !bundle) return;
     const point = coordinates(event);
@@ -634,9 +804,11 @@ export function CanvasStage({
             onPointerMove={move}
             onPointerUp={() => {
               drag.current = null;
+              focusDrag.current = null;
             }}
             onPointerCancel={() => {
               drag.current = null;
+              focusDrag.current = null;
             }}
           />
         </div>

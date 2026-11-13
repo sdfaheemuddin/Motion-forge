@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Plus,
   Type,
@@ -23,6 +23,13 @@ import {
   sceneEntries,
   timelineDoc,
 } from "../viewmodels/projectModel";
+import {
+  editableEntries,
+  layouts,
+  addLayout,
+  compositions,
+} from "../viewmodels/presentationModel";
+import { LayoutSettings } from "../components/LayoutSettings";
 import { CanvasStage } from "../components/CanvasStage";
 import { ElementInspector } from "../components/ElementInspector";
 import { Transport } from "../components/Transport";
@@ -37,9 +44,16 @@ const typeIcons: Record<string, typeof Type> = {
   path: Route,
   group: Group,
 };
-export function ScenesView() {
+export function LayoutDesignView() {
   const vm = useBuilder(),
     [filter, setFilter] = useState("");
+  useEffect(() => {
+    if (vm.bundle) {
+      const entries = editableEntries(vm.bundle.documents);
+      if (!entries.some((x) => x.scene.id === vm.sceneId) && entries[0])
+        vm.selectScene(entries[0].scene.id);
+    }
+  }, [vm.bundle?.project, vm.sceneId]);
   if (!vm.bundle)
     return (
       <Empty
@@ -48,7 +62,7 @@ export function ScenesView() {
       />
     );
   const docs = vm.bundle.documents,
-    entries = sceneEntries(docs),
+    entries = editableEntries(docs),
     scene = sceneById(docs, vm.sceneId),
     assets = assetDoc(docs).assets;
   const rows: { element: VideoElement; depth: number }[] = [];
@@ -68,7 +82,7 @@ export function ScenesView() {
     if (!vm.selected) return;
     const controlled = (timelineDoc(docs).tracks ?? []).some(
       (track) =>
-        track.target === `${clip?.id}/${vm.elementId}` &&
+        track.target === `${clip?.id ?? vm.sceneId}/${vm.elementId}` &&
         (track.property === "position" ||
           ["slideIn", "followPath"].includes(track.animation ?? "")),
     );
@@ -91,18 +105,23 @@ export function ScenesView() {
       <aside className="layers-panel">
         <div className="panel-heading">
           <Layers3 size={15} />
-          <h2>Scenes & layers</h2>
+          <h2>Layouts & content</h2>
           <button
             className="icon-button"
-            aria-label="Add scene"
-            onClick={vm.newScene}
+            aria-label="Add layout"
+            onClick={() => {
+              const copy = structuredClone(docs),
+                id = addLayout(copy);
+              vm.edit((d) => Object.assign(d, copy));
+              vm.selectScene(id);
+            }}
           >
             <Plus size={16} />
           </button>
         </div>
         <div className="scene-selector">
           <select
-            aria-label="Selected scene"
+            aria-label="Editing layout or composition"
             value={vm.sceneId}
             onChange={(event) => vm.selectScene(event.target.value)}
           >
@@ -115,7 +134,9 @@ export function ScenesView() {
           <span>
             {clip
               ? `${clip.start}s — ${clip.start + clip.duration}s`
-              : "No clip scheduled"}
+              : layouts(docs).some((x) => x.design.id === vm.sceneId)
+                ? "Reusable layout · scene content slots"
+                : "Shared content · project clock"}
           </span>
         </div>
         <div className="layers-search">
@@ -156,7 +177,7 @@ export function ScenesView() {
             })}
         </div>
         <div className="layers-footer">
-          <span className="small-label">LAYERS DRAW FROM BOTTOM TO TOP</span>
+          <span className="small-label">SHARED LAYOUTS & COMPOSITIONS</span>
           <button className="button text" onClick={() => vm.setTab("timeline")}>
             Scene timing
             <ChevronRight size={14} />
@@ -259,10 +280,13 @@ export function ScenesView() {
             </button>
           </div>
         </div>
-        <CanvasStage />
+        <CanvasStage authoring />
         <Transport />
       </main>
-      <ElementInspector />
+      <div className="design-properties">
+        <LayoutSettings />
+        <ElementInspector />
+      </div>
     </div>
   );
 }

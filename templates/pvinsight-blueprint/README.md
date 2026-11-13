@@ -32,10 +32,12 @@ Copy this entire directory into `projects/my-video`. The assets and configuratio
 - `project.json`: ID, name, canvas, duration and frame rate.
 - `assets.json` and `assets/`: image/path/font/media sources.
 - `branding.json`: palette, logo ID and text styles.
-- `scenes/main.json`: content, layout, visibility and effects.
-- `timeline.json`: captions, animation tracks and the energy route.
+- `layouts/infrastructure.json`: reusable logo/text positions, viewport and navigation styles.
+- `scenes/*.json`: seven scenes with text values, active navigation and focus rectangles.
+- `compositions/world.json`: shared equipment, images, paths and effects.
+- `timeline.json`: scene durations, continuous animation tracks and the energy route.
 - `export.json`: output filename, directory and encoding settings.
 
-Choose a distinct export filename/directory when creating a project. Replacing an image with a different size may require changing its scene position, scale or anchor. The included placement metadata records the original asset layout; scene JSON contains the actual rendered transforms.
+Choose a distinct export filename/directory when creating a project. Replacing an image with a different size may require changing its scene position, scale or anchor. The included placement metadata records the original asset layout; composition JSON contains the actual rendered transforms.
 
 Blender is not needed to render the included assets. The existing optional generator targets the original PVInsight example project. See ASSET_SOURCES.md for logo and generated asset provenance.

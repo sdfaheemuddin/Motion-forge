@@ -1,0 +1,23 @@
+{
+  "id": "overview",
+  "layout": "infrastructure-layout",
+  "composition": "pvi-world",
+  "elements": [],
+  "values": {
+    "eyebrow": "FOLLOW THE ENERGY",
+    "title": "FROM GENERATION TO GRID.",
+    "subtitle": "ENGINEERING EVERY CONNECTION."
+  },
+  "activeNavigationItem": "*",
+  "camera": {
+    "focus": {
+      "x": 300,
+      "y": 300,
+      "width": 1250,
+      "height": 650
+    },
+    "transition": 1.3,
+    "fit": "contain",
+    "easing": "easeInOut"
+  }
+}

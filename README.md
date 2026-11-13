@@ -40,14 +40,15 @@ Every CLI command also works as `python -m motion_forge ...`. Failed validation 
 
 ## Video builder
 
-![Motion Forge scene builder](docs/images/builder.jpg)
+![Motion Forge scene sequence](docs/images/scenes.jpg)
 
 | Tab | What you can do |
 | --- | --- |
 | Projects | Create blank projects, copy templates, and set canvas, FPS, and duration |
 | Assets | Import transparent PNGs, fonts, path JSON, audio, and video; inspect usage |
 | Branding | Set a logo, palette, and reusable text styles |
-| Scene builder | Add elements, drag/resize, arrange layers, edit properties and effects |
+| Layout Design | Create reusable layouts, bind text/image content keys, place the logo, viewport and navigation; edit shared composition elements |
+| Scenes | Choose layouts, fill text, highlight navigation, draw camera focus rectangles, reorder/duplicate/delete scenes, and drag timeline edges |
 | Timeline | Schedule animations, edit keyframes, drag track timing, edit routes and audio |
 | Preview | Play a fast visual preview or render an exact engine PNG |
 | Export | Set resolution/quality/audio, render MP4, monitor progress, watch and download |
@@ -65,7 +66,9 @@ See [builder architecture and API](docs/builder.md) for development details.
 | `project.json` | Schema version, canvas, duration/FPS and configuration references |
 | `assets.json` | Image, path, font, audio and video IDs and paths |
 | `branding.json` | Palette, logo ID and reusable text styles |
-| `scenes/*.json` | Elements, groups, layers, layout, visibility and effects |
+| `layouts/*.json` | Reusable placement, content bindings, viewport and active navigation styles |
+| `compositions/*.json` | Shared images, equipment, paths and animated elements |
+| `scenes/*.json` | Layout/composition references, content values, focus rectangle and active navigation (legacy element scenes remain supported) |
 | `timeline.json` | Scene clips, shared paths, keyframes, animation tracks and audio |
 | `export.json` | Filename, directory, resolution, H.264 quality, audio and loop check |
 
@@ -84,7 +87,7 @@ Copy an entire template into `projects/<your-project>` to customize it, or run t
 
 The PVI template exports to `output/pvinsight-blueprint-template/`, separately from the original example. See the [template guide](templates/README.md).
 
-## Supported in 0.2
+## Supported in 0.3
 
 - Image, text, shape, path, group and video elements.
 - Position, scale, clockwise rotation, opacity, fill/stroke, stroke width, reveal, text reveal and effect-property tracks.
@@ -95,6 +98,8 @@ The PVI template exports to `output/pvinsight-blueprint-template/`, separately f
 - PNG previews, H.264 MP4 exports, FFmpeg error logs and JSON render manifests. Optional loop endpoint comparison reports a warning rather than modifying the animation.
 - A local API with one render worker, persisted job status and progress.
 - Installed Python plugin registries for animations, effects and element renderers.
+
+Layout Design and Scenes are separate main tabs. Scene text is plain text; highlighting applies only to navigation labels (None, one item, or All). The PVI project and template demonstrate seven scene instances sharing one layout and composition.
 
 The single-user builder edits the same JSON files used by the CLI and API. Built-in easing is linear/ease-in/ease-out/ease-in-out; video playback speed must be positive. Keyframe timing is project-global. Bezier length is approximated by sampled segments. The Blender helper remains a project-specific optional generator, separate from the core.
 

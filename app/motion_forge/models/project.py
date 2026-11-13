@@ -13,6 +13,9 @@ class Project:
     export: dict
     sources: dict = field(default_factory=dict)
 
+    layouts: dict = field(default_factory=dict)
+    compositions: dict = field(default_factory=dict)
+
     @property
     def canvas_size(self):
         canvas = self.document['canvas']

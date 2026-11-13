@@ -29,7 +29,7 @@ def create_app(root=None):
     async def lifespan(app):
         yield
         jobs.close()
-    app=FastAPI(title='Motion Forge',version='0.2.0',lifespan=lifespan)
+    app=FastAPI(title='Motion Forge',version='0.3.0',lifespan=lifespan)
 
     @app.middleware('http')
     async def local_write_origin(request,call_next):

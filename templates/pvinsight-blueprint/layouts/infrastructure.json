@@ -1,0 +1,102 @@
+{
+  "id": "infrastructure-layout",
+  "name": "Infrastructure Focus",
+  "viewport": {
+    "x": 80,
+    "y": 350,
+    "width": 1760,
+    "height": 590
+  },
+  "elements": [
+    {
+      "id": "logo",
+      "type": "image",
+      "asset": "logo",
+      "width": 255,
+      "height": 88,
+      "layer": 100,
+      "transform": {
+        "position": [
+          120,
+          24
+        ]
+      },
+      "binding": "logo"
+    },
+    {
+      "id": "eyebrow",
+      "type": "text",
+      "binding": "eyebrow",
+      "text": "FOLLOW THE ENERGY",
+      "size": 20,
+      "color": "#70E1C4",
+      "transform": {
+        "position": [
+          110,
+          145
+        ]
+      }
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "binding": "title",
+      "text": "FROM GENERATION TO GRID.",
+      "size": 58,
+      "color": "#F1F5F9",
+      "width": 1700,
+      "transform": {
+        "position": [
+          108,
+          195
+        ]
+      }
+    },
+    {
+      "id": "subtitle",
+      "type": "text",
+      "binding": "subtitle",
+      "text": "ENGINEERING EVERY CONNECTION.",
+      "size": 28,
+      "color": "#70E1C4",
+      "width": 1700,
+      "transform": {
+        "position": [
+          110,
+          280
+        ]
+      }
+    }
+  ],
+  "navigation": {
+    "items": [
+      {
+        "id": "pv",
+        "label": "SOLAR PV"
+      },
+      {
+        "id": "bess",
+        "label": "BESS"
+      },
+      {
+        "id": "substation",
+        "label": "SUBSTATIONS"
+      },
+      {
+        "id": "transmission",
+        "label": "TRANSMISSION"
+      },
+      {
+        "id": "datacenter",
+        "label": "DATA CENTER POWER"
+      }
+    ],
+    "x": 110,
+    "y": 1008,
+    "width": 1700,
+    "size": 17,
+    "color": "#718595",
+    "activeColor": "#70E1C4",
+    "underline": true
+  }
+}

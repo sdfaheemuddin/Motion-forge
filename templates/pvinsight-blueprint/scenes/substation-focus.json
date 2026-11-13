@@ -1,0 +1,23 @@
+{
+  "id": "substation-focus",
+  "layout": "infrastructure-layout",
+  "composition": "pvi-world",
+  "elements": [],
+  "values": {
+    "eyebrow": "FOLLOW THE ENERGY",
+    "title": "SUBSTATIONS",
+    "subtitle": "Connect. Transform. Deliver."
+  },
+  "activeNavigationItem": "substation",
+  "camera": {
+    "focus": {
+      "x": 875,
+      "y": 420,
+      "width": 650,
+      "height": 490
+    },
+    "transition": 1.3,
+    "fit": "contain",
+    "easing": "easeInOut"
+  }
+}

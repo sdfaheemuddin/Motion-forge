@@ -1,10 +1,46 @@
 {
   "clips": [
     {
-      "id": "film",
+      "id": "main-clip",
       "scene": "main",
       "start": 0,
-      "duration": 40
+      "duration": 4
+    },
+    {
+      "id": "solar-focus-clip",
+      "scene": "solar-focus",
+      "start": 4,
+      "duration": 6
+    },
+    {
+      "id": "bess-focus-clip",
+      "scene": "bess-focus",
+      "start": 10,
+      "duration": 6
+    },
+    {
+      "id": "substation-focus-clip",
+      "scene": "substation-focus",
+      "start": 16,
+      "duration": 6
+    },
+    {
+      "id": "transmission-focus-clip",
+      "scene": "transmission-focus",
+      "start": 22,
+      "duration": 6
+    },
+    {
+      "id": "datacenter-focus-clip",
+      "scene": "datacenter-focus",
+      "start": 28,
+      "duration": 6
+    },
+    {
+      "id": "overview-clip",
+      "scene": "overview",
+      "start": 34,
+      "duration": 6
     }
   ],
   "paths": [
@@ -70,7 +106,7 @@
   "tracks": [
     {
       "id": "site-opacity",
-      "target": "film/site",
+      "target": "pvi-world/site",
       "property": "opacity",
       "keyframes": [
         {
@@ -97,7 +133,7 @@
     },
     {
       "id": "site-wire-opacity",
-      "target": "film/site-wire",
+      "target": "pvi-world/site-wire",
       "property": "opacity",
       "keyframes": [
         {
@@ -132,7 +168,7 @@
     },
     {
       "id": "solar-opacity",
-      "target": "film/solar",
+      "target": "pvi-world/solar",
       "property": "opacity",
       "keyframes": [
         {
@@ -159,7 +195,7 @@
     },
     {
       "id": "solar-wire-opacity",
-      "target": "film/solar-wire",
+      "target": "pvi-world/solar-wire",
       "property": "opacity",
       "keyframes": [
         {
@@ -194,7 +230,7 @@
     },
     {
       "id": "bess-opacity",
-      "target": "film/bess",
+      "target": "pvi-world/bess",
       "property": "opacity",
       "keyframes": [
         {
@@ -221,7 +257,7 @@
     },
     {
       "id": "bess-wire-opacity",
-      "target": "film/bess-wire",
+      "target": "pvi-world/bess-wire",
       "property": "opacity",
       "keyframes": [
         {
@@ -256,7 +292,7 @@
     },
     {
       "id": "substation-opacity",
-      "target": "film/substation",
+      "target": "pvi-world/substation",
       "property": "opacity",
       "keyframes": [
         {
@@ -283,7 +319,7 @@
     },
     {
       "id": "substation-wire-opacity",
-      "target": "film/substation-wire",
+      "target": "pvi-world/substation-wire",
       "property": "opacity",
       "keyframes": [
         {
@@ -318,7 +354,7 @@
     },
     {
       "id": "transmission-opacity",
-      "target": "film/transmission",
+      "target": "pvi-world/transmission",
       "property": "opacity",
       "keyframes": [
         {
@@ -345,7 +381,7 @@
     },
     {
       "id": "transmission-wire-opacity",
-      "target": "film/transmission-wire",
+      "target": "pvi-world/transmission-wire",
       "property": "opacity",
       "keyframes": [
         {
@@ -380,7 +416,7 @@
     },
     {
       "id": "datacenter-opacity",
-      "target": "film/datacenter",
+      "target": "pvi-world/datacenter",
       "property": "opacity",
       "keyframes": [
         {
@@ -407,7 +443,7 @@
     },
     {
       "id": "datacenter-wire-opacity",
-      "target": "film/datacenter-wire",
+      "target": "pvi-world/datacenter-wire",
       "property": "opacity",
       "keyframes": [
         {
@@ -442,7 +478,7 @@
     },
     {
       "id": "energy-travel",
-      "target": "film/energy-point",
+      "target": "pvi-world/energy-point",
       "animation": "followPath",
       "start": 6.5,
       "duration": 30.5,
@@ -455,7 +491,7 @@
     },
     {
       "id": "energy-point-opacity",
-      "target": "film/energy-point",
+      "target": "pvi-world/energy-point",
       "property": "opacity",
       "keyframes": [
         {
@@ -478,7 +514,7 @@
     },
     {
       "id": "energy-route-opacity",
-      "target": "film/energy-route",
+      "target": "pvi-world/energy-route",
       "property": "opacity",
       "keyframes": [
         {
@@ -495,336 +531,6 @@
         },
         {
           "time": 38.3,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "opening-opacity",
-      "target": "film/opening",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 0,
-          "value": 1
-        },
-        {
-          "time": 3.6,
-          "value": 1
-        },
-        {
-          "time": 4,
-          "value": 0
-        },
-        {
-          "time": 39,
-          "value": 0
-        },
-        {
-          "time": 39.7,
-          "value": 1
-        }
-      ]
-    },
-    {
-      "id": "opening-label-opacity",
-      "target": "film/opening-label",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 0,
-          "value": 1
-        },
-        {
-          "time": 3.6,
-          "value": 1
-        },
-        {
-          "time": 4,
-          "value": 0
-        },
-        {
-          "time": 39,
-          "value": 0
-        },
-        {
-          "time": 39.7,
-          "value": 1
-        }
-      ]
-    },
-    {
-      "id": "caption-0-title-opacity",
-      "target": "film/caption-0-title",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 4,
-          "value": 0
-        },
-        {
-          "time": 4.45,
-          "value": 1
-        },
-        {
-          "time": 9.6,
-          "value": 1
-        },
-        {
-          "time": 10,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-0-subtitle-opacity",
-      "target": "film/caption-0-subtitle",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 4,
-          "value": 0
-        },
-        {
-          "time": 4.45,
-          "value": 1
-        },
-        {
-          "time": 9.6,
-          "value": 1
-        },
-        {
-          "time": 10,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-1-title-opacity",
-      "target": "film/caption-1-title",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 10,
-          "value": 0
-        },
-        {
-          "time": 10.45,
-          "value": 1
-        },
-        {
-          "time": 14.6,
-          "value": 1
-        },
-        {
-          "time": 15,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-1-subtitle-opacity",
-      "target": "film/caption-1-subtitle",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 10,
-          "value": 0
-        },
-        {
-          "time": 10.45,
-          "value": 1
-        },
-        {
-          "time": 14.6,
-          "value": 1
-        },
-        {
-          "time": 15,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-2-title-opacity",
-      "target": "film/caption-2-title",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 15,
-          "value": 0
-        },
-        {
-          "time": 15.45,
-          "value": 1
-        },
-        {
-          "time": 20.6,
-          "value": 1
-        },
-        {
-          "time": 21,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-2-subtitle-opacity",
-      "target": "film/caption-2-subtitle",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 15,
-          "value": 0
-        },
-        {
-          "time": 15.45,
-          "value": 1
-        },
-        {
-          "time": 20.6,
-          "value": 1
-        },
-        {
-          "time": 21,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-3-title-opacity",
-      "target": "film/caption-3-title",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 21,
-          "value": 0
-        },
-        {
-          "time": 21.45,
-          "value": 1
-        },
-        {
-          "time": 25.6,
-          "value": 1
-        },
-        {
-          "time": 26,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-3-subtitle-opacity",
-      "target": "film/caption-3-subtitle",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 21,
-          "value": 0
-        },
-        {
-          "time": 21.45,
-          "value": 1
-        },
-        {
-          "time": 25.6,
-          "value": 1
-        },
-        {
-          "time": 26,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-4-title-opacity",
-      "target": "film/caption-4-title",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 26,
-          "value": 0
-        },
-        {
-          "time": 26.45,
-          "value": 1
-        },
-        {
-          "time": 30.6,
-          "value": 1
-        },
-        {
-          "time": 31,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "caption-4-subtitle-opacity",
-      "target": "film/caption-4-subtitle",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 26,
-          "value": 0
-        },
-        {
-          "time": 26.45,
-          "value": 1
-        },
-        {
-          "time": 30.6,
-          "value": 1
-        },
-        {
-          "time": 31,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "closing-title-opacity",
-      "target": "film/closing-title",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 31,
-          "value": 0
-        },
-        {
-          "time": 31.7,
-          "value": 1
-        },
-        {
-          "time": 37.7,
-          "value": 1
-        },
-        {
-          "time": 38.5,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "closing-subtitle-opacity",
-      "target": "film/closing-subtitle",
-      "property": "opacity",
-      "keyframes": [
-        {
-          "time": 31,
-          "value": 0
-        },
-        {
-          "time": 31.7,
-          "value": 1
-        },
-        {
-          "time": 37.7,
-          "value": 1
-        },
-        {
-          "time": 38.5,
           "value": 0
         }
       ]

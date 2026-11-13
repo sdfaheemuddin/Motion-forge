@@ -25,7 +25,7 @@ class BuilderTests(unittest.TestCase):
 
     def test_blank_create_save_reopen_and_revision_conflict(self):
         bundle=self.service.create('My first video')
-        docs=deepcopy(bundle['documents']);docs['scenes/main.json']['elements'][0]['text']='Edited title'
+        docs=deepcopy(bundle['documents']);docs['scenes/main.json']['values']['title']='Edited title'
         saved=self.service.save(bundle['project'],docs,bundle['revision'])
         self.assertNotEqual(saved['revision'],bundle['revision'])
         self.assertEqual(self.service.bundle(bundle['project'])['documents'],docs)
@@ -59,7 +59,7 @@ class BuilderTests(unittest.TestCase):
         self.assertEqual(uploaded['metadata']['width'],24)
         self.assertNotIn('..',uploaded['asset']['source'])
         docs=deepcopy(bundle['documents']);docs['assets.json']['assets'].append(uploaded['asset'])
-        docs['scenes/main.json']['elements'].append({'id':'logo','type':'image','asset':uploaded['asset']['id'],'width':120})
+        docs['compositions/world.json']['elements'].append({'id':'logo','type':'image','asset':uploaded['asset']['id'],'width':120})
         self.assertTrue(self.service.validate(bundle['project'],docs)['valid'])
         preview=self.service.preview(bundle['project'],docs,0)
         self.assertEqual(preview[:8],b'\x89PNG\r\n\x1a\n')

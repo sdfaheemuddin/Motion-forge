@@ -11,12 +11,80 @@
       "items": {
         "$ref": "#/$defs/element"
       },
-      "minItems": 1
+      "minItems": 0
+    },
+    "layout": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+    },
+    "composition": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+    },
+    "values": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "focus": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number",
+              "minimum": 0
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0
+            },
+            "width": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "height": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height"
+          ],
+          "additionalProperties": false
+        },
+        "transition": {
+          "type": "number",
+          "minimum": 0
+        },
+        "fit": {
+          "enum": [
+            "fill",
+            "contain"
+          ]
+        },
+        "easing": {
+          "enum": [
+            "linear",
+            "easeIn",
+            "easeOut",
+            "easeInOut"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "activeNavigationItem": {
+      "type": "string"
     }
   },
   "required": [
-    "id",
-    "elements"
+    "id"
   ],
   "additionalProperties": false,
   "$defs": {
@@ -295,6 +363,10 @@
         },
         "parameters": {
           "type": "object"
+        },
+        "binding": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
         }
       },
       "required": [
@@ -303,5 +375,33 @@
       ],
       "additionalProperties": false
     }
-  }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "layout",
+        "composition"
+      ],
+      "properties": {
+        "elements": {
+          "maxItems": 0
+        }
+      }
+    },
+    {
+      "required": [
+        "elements"
+      ],
+      "not": {
+        "required": [
+          "layout"
+        ]
+      },
+      "properties": {
+        "elements": {
+          "minItems": 1
+        }
+      }
+    }
+  ]
 }
